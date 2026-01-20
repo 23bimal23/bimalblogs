@@ -34,6 +34,13 @@ const reviews = [
     }
 ];
 
+// Function to escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // Function to generate star rating HTML
 function generateStars(rating) {
     let stars = '';
@@ -52,11 +59,11 @@ function renderReviews() {
         reviewCard.className = 'review-card';
         
         reviewCard.innerHTML = `
-            <h2>${review.title}</h2>
+            <h2>${escapeHtml(review.title)}</h2>
             <div class="rating">${generateStars(review.rating)}</div>
-            <div class="date">${review.date}</div>
-            <p>${review.review}</p>
-            <a href="${review.productLink}" class="product-link" target="_blank" rel="noopener noreferrer">
+            <div class="date">${escapeHtml(review.date)}</div>
+            <p>${escapeHtml(review.review)}</p>
+            <a href="${escapeHtml(review.productLink)}" class="product-link" target="_blank" rel="noopener noreferrer">
                 View Product
             </a>
         `;
